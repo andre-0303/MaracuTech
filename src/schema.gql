@@ -3,5 +3,9 @@
 # ------------------------------------------------------
 
 type Query {
-  health: String!
+  protectedHello: String!
+}
+
+type Mutation {
+  login(email: String!, password: String!): String!
 }
