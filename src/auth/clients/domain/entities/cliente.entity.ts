@@ -9,6 +9,28 @@ interface ClienteProps {
 }
 
 export class Cliente {
+  static restore(props: {
+  id: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  ativo: boolean;
+  createdAt: Date;
+}) {
+  const cliente = new Cliente(
+    {
+      nome: props.nome,
+      email: props.email,
+      telefone: props.telefone,
+      ativo: props.ativo,
+      createdAt: props.createdAt,
+    },
+    props.id,
+  );
+
+  return cliente;
+}
+
   private _id: string;
   private props: ClienteProps;
 

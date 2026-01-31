@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { Cliente } from '../../domain/entities/cliente.entity';
 import type { ClientesRepository } from '../../domain/repositories/clientes.repository';
-import { CLIENTES_REPOSITORY } from '../../domain/repositories/clientes-repository.token';
+import { CLIENTES_REPOSITORY } from '../../domain/repositories/clientes.repository';
 
 interface CreateClienteRequest {
   nome: string;
@@ -12,7 +12,7 @@ interface CreateClienteRequest {
 export class CreateClienteUseCase {
   constructor(
     @Inject(CLIENTES_REPOSITORY)
-    private clientesRepository: ClientesRepository,
+    private readonly clientesRepository: ClientesRepository,
   ) {}
 
   async execute(data: CreateClienteRequest): Promise<Cliente> {
