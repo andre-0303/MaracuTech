@@ -23,22 +23,20 @@ describe('CreateClienteUseCase', () => {
     expect(cliente.email).toBe('produtor@ibiapaba.com');
     expect(cliente.ativo).toBe(true);
   });
-  
+
   it('não deve permitir criar cliente com email duplicado', async () => {
-  await useCase.execute({
-    nome: 'Produtor 1',
-    email: 'duplicado@ibiapaba.com',
-    telefone: '111111111',
-  });
-
-  await expect(
-    useCase.execute({
-      nome: 'Produtor 2',
+    await useCase.execute({
+      nome: 'Produtor 1',
       email: 'duplicado@ibiapaba.com',
-      telefone: '222222222',
-    }),
-  ).rejects.toThrow('Cliente já cadastrado com este email');
-});
+      telefone: '111111111',
+    });
 
+    await expect(
+      useCase.execute({
+        nome: 'Produtor 2',
+        email: 'duplicado@ibiapaba.com',
+        telefone: '222222222',
+      }),
+    ).rejects.toThrow('Cliente já cadastrado com este email');
+  });
 });
-

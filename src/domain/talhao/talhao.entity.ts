@@ -22,15 +22,7 @@ export class Talhao {
     area: Area,
     localizacao: string,
   ) {
-    return new Talhao(
-      id,
-      clienteId,
-      nome,
-      area,
-      localizacao,
-      true,
-      new Date(),
-    );
+    return new Talhao(id, clienteId, nome, area, localizacao, true, new Date());
   }
 
   static restore(props: {

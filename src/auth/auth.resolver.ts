@@ -9,10 +9,7 @@ export class AuthResolver {
   constructor(private authService: AuthService) {}
 
   @Mutation(() => AuthResponse)
-  login(
-    @Args('email') email: string,
-    @Args('password') password: string,
-  ) {
+  login(@Args('email') email: string, @Args('password') password: string) {
     const result = this.authService.login(email, password);
     return { accessToken: result.accessToken };
   }

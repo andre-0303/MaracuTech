@@ -16,7 +16,7 @@ export class TalhaoMapper {
       localizacao: orm.localizacao,
       ativo: orm.ativo,
       createdAt: orm.createdAt,
-      plantios: orm.plantios?.map(p => {
+      plantios: orm.plantios?.map((p) => {
         const plantio = new Plantio(
           p.id,
           p.variedade,
@@ -26,13 +26,9 @@ export class TalhaoMapper {
 
         (plantio as any).faseAtual = p.faseAtual;
 
-        p.colheitas?.forEach(c => {
+        p.colheitas?.forEach((c) => {
           plantio.registrarColheita(
-            new Colheita(
-              c.id,
-              c.data,
-              new Quantidade(c.quantidade),
-            ),
+            new Colheita(c.id, c.data, new Quantidade(c.quantidade)),
           );
         });
 
@@ -52,13 +48,13 @@ export class TalhaoMapper {
       localizacao: talhao.localizacao,
       ativo: talhao.ativo,
       createdAt: talhao.createdAt,
-      plantios: talhao.getPlantios().map(p => ({
+      plantios: talhao.getPlantios().map((p) => ({
         id: p.id,
         variedade: p.variedade,
         dataPlantio: p.dataPlantio,
         quantidadeMudas: p.quantidadeMudas.getValue(),
         faseAtual: p.getFaseAtual(),
-        colheitas: p.getColheitas().map(c => ({
+        colheitas: p.getColheitas().map((c) => ({
           id: c.id,
           data: c.data,
           quantidade: c.quantidade.getValue(),

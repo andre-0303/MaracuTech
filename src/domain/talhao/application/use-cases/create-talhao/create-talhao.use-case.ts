@@ -9,9 +9,7 @@ import { CreateTalhaoInput } from './create-talhao.input';
 
 @Injectable()
 export class CreateTalhaoUseCase {
-  constructor(
-    private readonly talhoesRepository: TalhoesRepository,
-  ) {}
+  constructor(private readonly talhoesRepository: TalhoesRepository) {}
 
   async execute(input: CreateTalhaoInput): Promise<Talhao> {
     // 1️⃣ Regra de negócio: nome único por cliente

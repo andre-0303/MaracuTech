@@ -3,9 +3,7 @@ import type { ClientesRepository } from '../../domain/repositories/clientes.repo
 
 @Injectable()
 export class GetClienteByIdUseCase {
-  constructor(
-    private readonly clientesRepository: ClientesRepository,
-  ) {}
+  constructor(private readonly clientesRepository: ClientesRepository) {}
 
   async execute(id: string) {
     const cliente = await this.clientesRepository.findById(id);

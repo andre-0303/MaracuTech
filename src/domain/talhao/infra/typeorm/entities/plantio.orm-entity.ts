@@ -1,10 +1,4 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { TalhaoOrmEntity } from './talhao.orm-entity';
 import { ColheitaOrmEntity } from './colheita.orm-entity';
 import { FaseCultivo } from 'src/domain/talhao/fase-cultivo.enum';
@@ -30,12 +24,12 @@ export class PlantioOrmEntity {
   })
   faseAtual: FaseCultivo;
 
-  @ManyToOne(() => TalhaoOrmEntity, talhao => talhao.plantios, {
+  @ManyToOne(() => TalhaoOrmEntity, (talhao) => talhao.plantios, {
     onDelete: 'CASCADE',
   })
   talhao: TalhaoOrmEntity;
 
-  @OneToMany(() => ColheitaOrmEntity, colheita => colheita.plantio, {
+  @OneToMany(() => ColheitaOrmEntity, (colheita) => colheita.plantio, {
     cascade: true,
     eager: true,
   })

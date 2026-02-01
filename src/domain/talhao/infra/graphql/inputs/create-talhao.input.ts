@@ -14,4 +14,3 @@ export class CreateTalhaoInput {
   @Field()
   localizacao: string;
 }
-

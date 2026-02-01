@@ -23,4 +23,3 @@ export class TalhaoModel {
   @Field()
   createdAt: Date;
 }
-

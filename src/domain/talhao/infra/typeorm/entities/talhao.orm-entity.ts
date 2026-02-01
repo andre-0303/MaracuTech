@@ -32,7 +32,7 @@ export class TalhaoOrmEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToMany(() => PlantioOrmEntity, plantio => plantio.talhao, {
+  @OneToMany(() => PlantioOrmEntity, (plantio) => plantio.talhao, {
     cascade: true,
     eager: true,
   })

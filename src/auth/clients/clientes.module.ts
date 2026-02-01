@@ -7,13 +7,14 @@ import { UpdateClienteUseCase } from './application/use-cases/update-cliente.use
 
 import { ClienteOrmEntity } from './infra/typeorm/entities/cliente.orm-entity';
 import { TypeOrmClientesRepository } from './infra/typeorm/repositories/typeorm-clientes.repository';
-import { CLIENTES_REPOSITORY, ClientesRepository } from './domain/repositories/clientes.repository';
+import {
+  CLIENTES_REPOSITORY,
+  ClientesRepository,
+} from './domain/repositories/clientes.repository';
 import { ListClientesUseCase } from './application/use-cases/list-clientes.use-case';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([ClienteOrmEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([ClienteOrmEntity])],
   providers: [
     ClientesResolver,
 
@@ -24,7 +25,7 @@ import { ListClientesUseCase } from './application/use-cases/list-clientes.use-c
     {
       provide: CLIENTES_REPOSITORY,
       useClass: TypeOrmClientesRepository,
-    }
-  ]
+    },
+  ],
 })
 export class ClientesModule {}

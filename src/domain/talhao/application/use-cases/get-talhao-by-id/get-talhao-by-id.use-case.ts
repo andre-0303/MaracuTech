@@ -4,9 +4,7 @@ import { Talhao } from 'src/domain/talhao/talhao.entity';
 
 @Injectable()
 export class GetTalhaoByIdUseCase {
-  constructor(
-    private readonly talhoesRepository: TalhoesRepository,
-  ) {}
+  constructor(private readonly talhoesRepository: TalhoesRepository) {}
 
   async execute(id: string): Promise<Talhao> {
     const talhao = await this.talhoesRepository.findById(id);
@@ -18,4 +16,3 @@ export class GetTalhaoByIdUseCase {
     return talhao;
   }
 }
-

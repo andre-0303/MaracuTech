@@ -1,9 +1,10 @@
-import { ClientesRepository, FindAllClientesFilters } from '../../domain/repositories/clientes.repository';
+import {
+  ClientesRepository,
+  FindAllClientesFilters,
+} from '../../domain/repositories/clientes.repository';
 import { Cliente } from '../../domain/entities/cliente.entity';
 
-export class InMemoryClientesRepository
-  implements ClientesRepository
-{
+export class InMemoryClientesRepository implements ClientesRepository {
   private clientes: Cliente[] = [];
 
   async create(cliente: Cliente): Promise<void> {
@@ -11,9 +12,7 @@ export class InMemoryClientesRepository
   }
 
   async save(cliente: Cliente): Promise<void> {
-    const index = this.clientes.findIndex(
-      (c) => c.id === cliente.id,
-    );
+    const index = this.clientes.findIndex((c) => c.id === cliente.id);
 
     if (index >= 0) {
       this.clientes[index] = cliente;

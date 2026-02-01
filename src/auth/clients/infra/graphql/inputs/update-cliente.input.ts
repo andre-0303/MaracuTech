@@ -5,7 +5,7 @@ import { IsBoolean, IsEmail, IsOptional, IsString } from 'class-validator';
 export class UpdateClienteInput {
   @Field()
   @IsString()
-  id: string;   
+  id: string;
 
   @Field({ nullable: true })
   @IsOptional()

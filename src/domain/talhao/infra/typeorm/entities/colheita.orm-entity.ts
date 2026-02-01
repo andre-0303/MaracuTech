@@ -1,9 +1,4 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  ManyToOne,
-} from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne } from 'typeorm';
 import { PlantioOrmEntity } from './plantio.orm-entity';
 
 @Entity('colheitas')
@@ -17,7 +12,7 @@ export class ColheitaOrmEntity {
   @Column('int')
   quantidade: number;
 
-  @ManyToOne(() => PlantioOrmEntity, plantio => plantio.colheitas, {
+  @ManyToOne(() => PlantioOrmEntity, (plantio) => plantio.colheitas, {
     onDelete: 'CASCADE',
   })
   plantio: PlantioOrmEntity;

@@ -1,4 +1,4 @@
 export interface ListTalhoesArgs {
-    clienteId: string;
-    ativo?: boolean;
+  clienteId: string;
+  ativo?: boolean;
 }

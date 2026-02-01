@@ -10,26 +10,26 @@ interface ClienteProps {
 
 export class Cliente {
   static restore(props: {
-  id: string;
-  nome: string;
-  email: string;
-  telefone: string;
-  ativo: boolean;
-  createdAt: Date;
-}) {
-  const cliente = new Cliente(
-    {
-      nome: props.nome,
-      email: props.email,
-      telefone: props.telefone,
-      ativo: props.ativo,
-      createdAt: props.createdAt,
-    },
-    props.id,
-  );
+    id: string;
+    nome: string;
+    email: string;
+    telefone: string;
+    ativo: boolean;
+    createdAt: Date;
+  }) {
+    const cliente = new Cliente(
+      {
+        nome: props.nome,
+        email: props.email,
+        telefone: props.telefone,
+        ativo: props.ativo,
+        createdAt: props.createdAt,
+      },
+      props.id,
+    );
 
-  return cliente;
-}
+    return cliente;
+  }
 
   private _id: string;
   private props: ClienteProps;
@@ -40,10 +40,7 @@ export class Cliente {
   }
 
   // 🔹 Factory Method (forma correta de criar)
-  static create(
-    props: Omit<ClienteProps, 'ativo' | 'createdAt'>,
-    id?: string,
-  ) {
+  static create(props: Omit<ClienteProps, 'ativo' | 'createdAt'>, id?: string) {
     const cliente = new Cliente(
       {
         ...props,

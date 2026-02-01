@@ -17,4 +17,3 @@ export class ClienteMapper {
     return clientes.map(ClienteMapper.toModel);
   }
 }
-

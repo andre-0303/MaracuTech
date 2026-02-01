@@ -12,7 +12,7 @@ export class ListClientesUseCase {
   ) {}
 
   async execute(filters: ListClientesArgs): Promise<Cliente[]> {
-    const {ativo, nome, email} = filters;
+    const { ativo, nome, email } = filters;
 
     return this.clientesRepository.findAll({
       ativo,

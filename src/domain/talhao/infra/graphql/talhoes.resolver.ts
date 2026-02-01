@@ -29,7 +29,7 @@ export class TalhoesResolver {
       ativo,
     });
 
-    return talhoes.map(t => ({
+    return talhoes.map((t) => ({
       id: t.id,
       clienteId: t.clienteId,
       nome: t.nome,
@@ -41,9 +41,7 @@ export class TalhoesResolver {
   }
 
   @Query(() => TalhaoModel)
-  async getTalhaoById(
-    @Args('id') id: string,
-  ) {
+  async getTalhaoById(@Args('id') id: string) {
     const talhao = await this.getTalhaoByIdUseCase.execute(id);
 
     return {
@@ -58,9 +56,7 @@ export class TalhoesResolver {
   }
 
   @Mutation(() => TalhaoModel)
-  async createTalhao(
-    @Args('input') input: CreateTalhaoInput,
-  ) {
+  async createTalhao(@Args('input') input: CreateTalhaoInput) {
     const talhao = await this.createTalhaoUseCase.execute(input);
 
     return {

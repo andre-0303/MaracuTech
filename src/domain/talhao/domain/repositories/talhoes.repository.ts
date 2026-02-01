@@ -1,4 +1,4 @@
-import { Talhao } from "../../talhao.entity";
+import { Talhao } from '../../talhao.entity';
 
 export interface TalhoesRepository {
   create(talhao: Talhao): Promise<void>;
@@ -9,15 +9,9 @@ export interface TalhoesRepository {
 
   findByClienteId(clienteId: string): Promise<Talhao[]>;
 
-  existsByNomeAndClienteId(
-    nome: string,
-    clienteId: string,
-  ): Promise<boolean>;
+  existsByNomeAndClienteId(nome: string, clienteId: string): Promise<boolean>;
 
-  findAllByCliente(
-    clienteId: string,
-    ativo?: boolean,
-  ): Promise<Talhao[]>;
+  findAllByCliente(clienteId: string, ativo?: boolean): Promise<Talhao[]>;
 
   delete(id: string): Promise<void>;
 }

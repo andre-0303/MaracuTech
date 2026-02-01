@@ -28,4 +28,3 @@ import { ColheitaOrmEntity } from './infra/typeorm/entities/colheita.orm-entity'
   exports: [TALHOES_REPOSITORY],
 })
 export class TalhoesModule {}
-

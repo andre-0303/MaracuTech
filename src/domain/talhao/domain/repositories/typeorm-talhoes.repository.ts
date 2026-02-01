@@ -98,5 +98,4 @@ export class TypeOrmTalhoesRepository implements TalhoesRepository {
 
     return talhoes.map(TalhaoMapper.toDomain);
   }
-
 }

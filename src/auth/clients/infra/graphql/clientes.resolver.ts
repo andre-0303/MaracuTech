@@ -50,24 +50,25 @@ export class ClientesResolver {
     @Args('nome', { type: () => String, nullable: true }) nome?: string,
     @Args('email', { type: () => String, nullable: true }) email?: string,
   ): Promise<ClienteModel[]> {
-    const clientes = await this.clientesRepository.findAll({ ativo, nome, email });
+    const clientes = await this.clientesRepository.findAll({
+      ativo,
+      nome,
+      email,
+    });
     return ClienteMapper.toModels(clientes);
   }
 
   @Mutation(() => ClienteModel)
-    async updateCliente(
-      @Args('input') input: UpdateClienteInput,
-    ) {
-      const cliente = await this.updateClienteUseCase.execute(input);
+  async updateCliente(@Args('input') input: UpdateClienteInput) {
+    const cliente = await this.updateClienteUseCase.execute(input);
 
-      return {
-        id: cliente.id,
-        nome: cliente.nome,
-        email: cliente.email,
-        telefone: cliente.telefone,
-        ativo: cliente.ativo,
-        createdAt: cliente.createdAt,
-      };
-    }
-
+    return {
+      id: cliente.id,
+      nome: cliente.nome,
+      email: cliente.email,
+      telefone: cliente.telefone,
+      ativo: cliente.ativo,
+      createdAt: cliente.createdAt,
+    };
+  }
 }

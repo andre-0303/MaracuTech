@@ -16,8 +16,9 @@ export class CreateClienteUseCase {
   ) {}
 
   async execute(data: CreateClienteRequest): Promise<Cliente> {
-    const clienteExistente =
-      await this.clientesRepository.findByEmail(data.email);
+    const clienteExistente = await this.clientesRepository.findByEmail(
+      data.email,
+    );
 
     if (clienteExistente) {
       throw new Error('Cliente já cadastrado com este email');
