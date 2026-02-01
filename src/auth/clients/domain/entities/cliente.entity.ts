@@ -89,4 +89,11 @@ export class Cliente {
   atualizarTelefone(novoTelefone: string) {
     this.props.telefone = novoTelefone;
   }
+
+  update(partial: Partial<Omit<ClienteProps, 'createdAt'>>) {
+    if (partial.nome !== undefined) this.props.nome = partial.nome;
+    if (partial.email !== undefined) this.props.email = partial.email;
+    if (partial.telefone !== undefined) this.props.telefone = partial.telefone;
+    if (partial.ativo !== undefined) this.props.ativo = partial.ativo;
+  }
 }

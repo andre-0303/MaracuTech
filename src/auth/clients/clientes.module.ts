@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ClientesResolver } from './infra/graphql/clientes.resolver';
 import { CreateClienteUseCase } from './application/use-cases/create-cliente.use-case';
+import { UpdateClienteUseCase } from './application/use-cases/update-cliente.use-case';
 
 import { ClienteOrmEntity } from './infra/typeorm/entities/cliente.orm-entity';
 import { TypeOrmClientesRepository } from './infra/typeorm/repositories/typeorm-clientes.repository';
@@ -18,6 +19,7 @@ import { ListClientesUseCase } from './application/use-cases/list-clientes.use-c
 
     CreateClienteUseCase,
     ListClientesUseCase,
+    UpdateClienteUseCase,
 
     {
       provide: CLIENTES_REPOSITORY,
