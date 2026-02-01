@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
 import { ClientesModule } from './auth/clients/clientes.module';
+import { TalhoesModule } from './domain/talhao/talhoes.module';
 import { ClienteOrmEntity } from './auth/clients/infra/typeorm/entities/cliente.orm-entity';
 import { ConfigModule } from '@nestjs/config';
 
@@ -26,12 +27,13 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forRoot({
       type: 'postgres',
       url: process.env.DATABASE_URL,
-      synchronize: false, 
+      synchronize: false,
       autoLoadEntities: true,
     }),
 
     AuthModule,
     ClientesModule,
+    TalhoesModule,
   ],
 })
 export class AppModule {}

@@ -14,5 +14,10 @@ export interface TalhoesRepository {
     clienteId: string,
   ): Promise<boolean>;
 
+  findAllByCliente(
+    clienteId: string,
+    ativo?: boolean,
+  ): Promise<Talhao[]>;
+
   delete(id: string): Promise<void>;
 }

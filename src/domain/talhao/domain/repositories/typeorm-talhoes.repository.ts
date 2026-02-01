@@ -73,4 +73,30 @@ export class TypeOrmTalhoesRepository implements TalhoesRepository {
   async delete(id: string): Promise<void> {
     await this.repository.delete(id);
   }
+
+  async findAllByCliente(
+    clienteId: string,
+    ativo?: boolean,
+  ): Promise<Talhao[]> {
+    const where: any = { clienteId };
+
+    if (ativo !== undefined) {
+      where.ativo = ativo;
+    }
+
+    const talhoes = await this.repository.find({
+      where,
+      relations: {
+        plantios: {
+          colheitas: true,
+        },
+      },
+      order: {
+        nome: 'ASC',
+      },
+    });
+
+    return talhoes.map(TalhaoMapper.toDomain);
+  }
+
 }
