@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Cliente } from '../../../domain/entities/cliente.entity';
-import type { ClientesRepository } from '../../../domain/repositories/clientes.repository';
+import type { ClientesRepository, FindAllClientesFilters } from '../../../domain/repositories/clientes.repository';
 import { ClienteOrmEntity } from '../entities/cliente.orm-entity';
 import { ClienteMapper } from '../mappers/cliente.mapper';
 
@@ -48,8 +48,22 @@ export class TypeOrmClientesRepository implements ClientesRepository {
     return ormCliente ? this.toDomain(ormCliente) : null;
   }
 
-  async findAll(): Promise<Cliente[]> {
-    const clientes = await this.repository.find();
+  async findAll(filters?: FindAllClientesFilters): Promise<Cliente[]> {
+    const queryBuilder = this.repository.createQueryBuilder('cliente');
+
+    if (filters?.ativo !== undefined) {
+      queryBuilder.andWhere('cliente.ativo = :ativo', { ativo: filters.ativo });
+    }
+
+    if (filters?.nome) {
+      queryBuilder.andWhere('LOWER(cliente.nome) LIKE LOWER(:nome)', { nome: `%${filters.nome}%` });
+    }
+
+    if (filters?.email) {
+      queryBuilder.andWhere('LOWER(cliente.email) LIKE LOWER(:email)', { email: `%${filters.email}%` });
+    }
+
+    const clientes = await queryBuilder.getMany();
     return clientes.map(ClienteMapper.toDomain);
   }
 

@@ -27,7 +27,11 @@ describe('ListClientesUseCase', () => {
     await clientesRepository.create(cliente1);
     await clientesRepository.create(cliente2);
 
-    const clientes = await useCase.execute();
+    const clientes = await useCase.execute({
+      ativo: undefined,
+      nome: undefined,
+      email: undefined,
+    });
 
     expect(clientes).toHaveLength(2);
     expect(clientes[0].nome).toBe('Produtor 1');

@@ -1,4 +1,4 @@
-import { ClientesRepository } from '../../domain/repositories/clientes.repository';
+import { ClientesRepository, FindAllClientesFilters } from '../../domain/repositories/clientes.repository';
 import { Cliente } from '../../domain/entities/cliente.entity';
 
 export class InMemoryClientesRepository
@@ -28,7 +28,25 @@ export class InMemoryClientesRepository
     return this.clientes.find((c) => c.email === email) ?? null;
   }
 
-  async findAll(): Promise<Cliente[]> {
-    return this.clientes;
+  async findAll(filters?: FindAllClientesFilters): Promise<Cliente[]> {
+    let resultados = this.clientes;
+
+    if (filters?.ativo !== undefined) {
+      resultados = resultados.filter((c) => c.ativo === filters.ativo);
+    }
+
+    if (filters?.nome) {
+      resultados = resultados.filter((c) =>
+        c.nome.toLowerCase().includes(filters.nome!.toLowerCase()),
+      );
+    }
+
+    if (filters?.email) {
+      resultados = resultados.filter((c) =>
+        c.email.toLowerCase().includes(filters.email!.toLowerCase()),
+      );
+    }
+
+    return resultados;
   }
 }
