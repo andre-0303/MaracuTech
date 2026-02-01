@@ -1,8 +1,8 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 
-import { TALHOES_REPOSITORY } from 'src/domain/talhao/domain/repositories/talhoes-repository.token';
-import type { TalhoesRepository } from 'src/domain/talhao/domain/repositories/talhoes.repository';
-import { Talhao } from 'src/domain/talhao/talhao.entity';
+import { TALHOES_REPOSITORY } from '../../../domain/repositories/talhoes-repository.token';
+import type { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
+import { Talhao } from '../../../talhao.entity';
 
 @Injectable()
 export class GetTalhaoByIdUseCase {

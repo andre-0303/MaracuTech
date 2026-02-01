@@ -1,11 +1,11 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
-import { TALHOES_REPOSITORY } from 'src/domain/talhao/domain/repositories/talhoes-repository.token';
-import type { TalhoesRepository } from 'src/domain/talhao/domain/repositories/talhoes.repository';
+import { TALHOES_REPOSITORY } from '../../../domain/repositories/talhoes-repository.token';
+import type { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
 
-import { Talhao } from 'src/domain/talhao/talhao.entity';
-import { Area } from 'src/domain/shared/value-objects/area.vo';
+import { Talhao } from '../../../talhao.entity';
+import { Area } from '../../../../shared/value-objects/area.vo';
 import { CreateTalhaoInput } from 'src/domain/talhao/infra/graphql/inputs/create-talhao.input';
 
 @Injectable()
