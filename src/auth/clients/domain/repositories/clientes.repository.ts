@@ -11,6 +11,7 @@ export interface FindAllClientesFilters {
 export interface ClientesRepository {
   create(cliente: Cliente): Promise<void>;
   save(cliente: Cliente): Promise<void>;
+  delete(id: string): Promise<void>;
   findById(id: string): Promise<Cliente | null>;
   findByEmail(email: string): Promise<Cliente | null>;
   findAll(filters?: FindAllClientesFilters): Promise<Cliente[]>;

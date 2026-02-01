@@ -38,6 +38,10 @@ export class TypeOrmClientesRepository implements ClientesRepository {
     });
   }
 
+  async delete(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
+
   async findById(id: string): Promise<Cliente | null> {
     const ormCliente = await this.repository.findOne({ where: { id } });
     return ormCliente ? this.toDomain(ormCliente) : null;

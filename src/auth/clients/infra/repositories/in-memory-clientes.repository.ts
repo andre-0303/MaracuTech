@@ -20,6 +20,13 @@ export class InMemoryClientesRepository
     }
   }
 
+  async delete(id: string): Promise<void> {
+    const index = this.clientes.findIndex((c) => c.id === id);
+    if (index >= 0) {
+      this.clientes.splice(index, 1);
+    }
+  }
+
   async findById(id: string): Promise<Cliente | null> {
     return this.clientes.find((c) => c.id === id) ?? null;
   }
