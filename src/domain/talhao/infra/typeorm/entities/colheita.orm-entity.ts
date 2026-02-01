@@ -11,12 +11,14 @@ export class ColheitaOrmEntity {
   @PrimaryColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ type: 'date' })
   data: Date;
 
   @Column('int')
   quantidade: number;
 
-  @ManyToOne(() => PlantioOrmEntity, plantio => plantio.colheitas)
+  @ManyToOne(() => PlantioOrmEntity, plantio => plantio.colheitas, {
+    onDelete: 'CASCADE',
+  })
   plantio: PlantioOrmEntity;
 }

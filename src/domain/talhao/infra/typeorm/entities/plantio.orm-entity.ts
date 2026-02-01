@@ -17,7 +17,7 @@ export class PlantioOrmEntity {
   @Column()
   variedade: string;
 
-  @Column()
+  @Column({ type: 'date' })
   dataPlantio: Date;
 
   @Column('int')
@@ -30,7 +30,9 @@ export class PlantioOrmEntity {
   })
   faseAtual: FaseCultivo;
 
-  @ManyToOne(() => TalhaoOrmEntity, talhao => talhao.plantios)
+  @ManyToOne(() => TalhaoOrmEntity, talhao => talhao.plantios, {
+    onDelete: 'CASCADE',
+  })
   talhao: TalhaoOrmEntity;
 
   @OneToMany(() => ColheitaOrmEntity, colheita => colheita.plantio, {

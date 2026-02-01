@@ -4,9 +4,11 @@ import {
   Column,
   OneToMany,
   CreateDateColumn,
+  Index,
 } from 'typeorm';
 import { PlantioOrmEntity } from './plantio.orm-entity';
 
+@Index(['clienteId'])
 @Entity('talhoes')
 export class TalhaoOrmEntity {
   @PrimaryColumn('uuid')
@@ -18,7 +20,7 @@ export class TalhaoOrmEntity {
   @Column()
   nome: string;
 
-  @Column('decimal')
+  @Column('decimal', { precision: 10, scale: 2 })
   area: number;
 
   @Column()
