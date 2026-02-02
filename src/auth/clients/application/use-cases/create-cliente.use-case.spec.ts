@@ -1,12 +1,12 @@
 import { CreateClienteUseCase } from './create-cliente.use-case';
-import { InMemoryClientesRepository } from '../../infra/repositories/in-memory-clientes.repository';
+import { ClientesRepositoryFake } from '../../infra/repositories/clientes-repository.fake';
 
 describe('CreateClienteUseCase', () => {
   let useCase: CreateClienteUseCase;
-  let clientesRepository: InMemoryClientesRepository;
+  let clientesRepository: ClientesRepositoryFake;
 
   beforeEach(() => {
-    clientesRepository = new InMemoryClientesRepository();
+    clientesRepository = new ClientesRepositoryFake();
     useCase = new CreateClienteUseCase(clientesRepository);
   });
 

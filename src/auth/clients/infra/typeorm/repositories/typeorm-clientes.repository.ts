@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager } from 'typeorm';
 
 import { Cliente } from '../../../domain/entities/cliente.entity';
 import type {
@@ -12,13 +11,10 @@ import { ClienteMapper } from '../mappers/cliente.mapper';
 
 @Injectable()
 export class TypeOrmClientesRepository implements ClientesRepository {
-  constructor(
-    @InjectRepository(ClienteOrmEntity)
-    private readonly repository: Repository<ClienteOrmEntity>,
-  ) {}
+  constructor(private readonly manager: EntityManager) {}
 
   async create(cliente: Cliente): Promise<void> {
-    const ormCliente = this.repository.create({
+    await this.manager.save(ClienteOrmEntity, {
       id: cliente.id,
       nome: cliente.nome,
       email: cliente.email,
@@ -26,12 +22,10 @@ export class TypeOrmClientesRepository implements ClientesRepository {
       ativo: cliente.ativo,
       createdAt: cliente.createdAt,
     });
-
-    await this.repository.save(ormCliente);
   }
 
   async save(cliente: Cliente): Promise<void> {
-    await this.repository.save({
+    await this.manager.save(ClienteOrmEntity, {
       id: cliente.id,
       nome: cliente.nome,
       email: cliente.email,
@@ -42,21 +36,25 @@ export class TypeOrmClientesRepository implements ClientesRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.repository.delete(id);
+    await this.manager.delete(ClienteOrmEntity, id);
   }
 
   async findById(id: string): Promise<Cliente | null> {
-    const ormCliente = await this.repository.findOne({ where: { id } });
+    const ormCliente = await this.manager.findOne(ClienteOrmEntity, {
+      where: { id },
+    });
     return ormCliente ? this.toDomain(ormCliente) : null;
   }
 
   async findByEmail(email: string): Promise<Cliente | null> {
-    const ormCliente = await this.repository.findOne({ where: { email } });
+    const ormCliente = await this.manager.findOne(ClienteOrmEntity, {
+      where: { email },
+    });
     return ormCliente ? this.toDomain(ormCliente) : null;
   }
 
   async findAll(filters?: FindAllClientesFilters): Promise<Cliente[]> {
-    const queryBuilder = this.repository.createQueryBuilder('cliente');
+    const queryBuilder = this.manager.createQueryBuilder(ClienteOrmEntity, 'cliente');
 
     if (filters?.ativo !== undefined) {
       queryBuilder.andWhere('cliente.ativo = :ativo', { ativo: filters.ativo });
@@ -89,3 +87,4 @@ export class TypeOrmClientesRepository implements ClientesRepository {
     });
   }
 }
+

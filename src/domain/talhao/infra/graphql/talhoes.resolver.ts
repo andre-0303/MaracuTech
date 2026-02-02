@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
-import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
+import { GqlAuthGuard } from '../../../../auth/guard/gql-auth.guard';
 
 import { TalhaoModel } from './models/talhao.model';
 import { CreateTalhaoInput } from './inputs/create-talhao.input';

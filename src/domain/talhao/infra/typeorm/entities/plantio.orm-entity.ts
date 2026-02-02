@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { TalhaoOrmEntity } from './talhao.orm-entity';
 import { ColheitaOrmEntity } from './colheita.orm-entity';
-import { FaseCultivo } from 'src/domain/talhao/fase-cultivo.enum';
+import { FaseCultivo } from '../../../fase-cultivo.enum';
 
 @Entity('plantios')
 export class PlantioOrmEntity {

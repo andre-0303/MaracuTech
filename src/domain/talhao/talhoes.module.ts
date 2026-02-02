@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
 
 import { TALHOES_REPOSITORY } from './domain/repositories/talhoes-repository.token';
 import { TypeOrmTalhoesRepository } from './domain/repositories/typeorm-talhoes.repository';
@@ -10,6 +11,9 @@ import { TalhoesResolver } from './infra/graphql/talhoes.resolver';
 import { TalhaoOrmEntity } from './infra/typeorm/entities/talhao.orm-entity';
 import { PlantioOrmEntity } from './infra/typeorm/entities/plantio.orm-entity';
 import { ColheitaOrmEntity } from './infra/typeorm/entities/colheita.orm-entity';
+import { TypeOrmTransactionManager } from '../../shared/infra/database/typeorm-transaction-manager';
+
+export const TRANSACTION_MANAGER = 'TRANSACTION_MANAGER';
 
 @Module({
   imports: [
@@ -26,9 +30,17 @@ import { ColheitaOrmEntity } from './infra/typeorm/entities/colheita.orm-entity'
     GetTalhaoByIdUseCase,
     {
       provide: TALHOES_REPOSITORY,
-      useClass: TypeOrmTalhoesRepository,
+      useFactory: (manager: any) => new TypeOrmTalhoesRepository(manager),
+      inject: ['EntityManager', DataSource],
+    },
+    {
+      provide: TRANSACTION_MANAGER,
+      useFactory: (dataSource: DataSource) =>
+        new TypeOrmTransactionManager(dataSource),
+      inject: [DataSource],
     },
   ],
-  exports: [TALHOES_REPOSITORY],
+  exports: [TALHOES_REPOSITORY, TRANSACTION_MANAGER],
 })
 export class TalhoesModule {}
+

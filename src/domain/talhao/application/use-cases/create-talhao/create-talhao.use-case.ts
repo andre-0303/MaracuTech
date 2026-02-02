@@ -1,26 +1,23 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
-import { TALHOES_REPOSITORY } from '../../../domain/repositories/talhoes-repository.token';
 import type { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
 
 import { Talhao } from '../../../talhao.entity';
 import { Area } from '../../../../shared/value-objects/area.vo';
-import { CreateTalhaoInput } from 'src/domain/talhao/infra/graphql/inputs/create-talhao.input';
+import { CreateTalhaoInput } from '../../../infra/graphql/inputs/create-talhao.input';
 
 @Injectable()
 export class CreateTalhaoUseCase {
   constructor(
-    @Inject(TALHOES_REPOSITORY)
     private readonly talhoesRepository: TalhoesRepository,
   ) {}
 
   async execute(input: CreateTalhaoInput): Promise<Talhao> {
-    const jaExiste =
-      await this.talhoesRepository.existsByNomeAndClienteId(
-        input.nome,
-        input.clienteId,
-      );
+    const jaExiste = await this.talhoesRepository.existsByNomeAndClienteId(
+      input.nome,
+      input.clienteId,
+    );
 
     if (jaExiste) {
       throw new Error('Já existe um talhão com esse nome para este cliente');
@@ -39,3 +36,4 @@ export class CreateTalhaoUseCase {
     return talhao;
   }
 }
+

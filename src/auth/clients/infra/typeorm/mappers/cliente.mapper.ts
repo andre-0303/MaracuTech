@@ -1,4 +1,4 @@
-import { Cliente } from 'src/auth/clients/domain/entities/cliente.entity';
+import { Cliente } from '../../../domain/entities/cliente.entity';
 import { ClienteOrmEntity } from '../entities/cliente.orm-entity';
 
 export class ClienteMapper {

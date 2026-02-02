@@ -1,8 +1,8 @@
-import { Talhao } from 'src/domain/talhao/talhao.entity';
-import { Area } from 'src/domain/shared/value-objects/area.vo';
-import { Quantidade } from 'src/domain/shared/value-objects/quantidade.vo';
-import { Plantio } from 'src/domain/talhao/plantio.entity';
-import { Colheita } from 'src/domain/talhao/colheita.entity';
+import { Talhao } from '../../../talhao.entity';
+import { Area } from '../../../../shared/value-objects/area.vo';
+import { Quantidade } from '../../../../shared/value-objects/quantidade.vo';
+import { Plantio } from '../../../plantio.entity';
+import { Colheita } from '../../../colheita.entity';
 
 import { TalhaoOrmEntity } from '../entities/talhao.orm-entity';
 

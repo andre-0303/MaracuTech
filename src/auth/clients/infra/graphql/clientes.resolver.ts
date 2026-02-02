@@ -8,7 +8,7 @@ import { ListClientesUseCase } from '../../application/use-cases/list-clientes.u
 import { UpdateClienteUseCase } from '../../application/use-cases/update-cliente.use-case';
 import { CreateClienteInput } from './inputs/create-cliente.input';
 import { ClienteModel } from './models/cliente.model';
-import { GqlAuthGuard } from 'src/auth/guard/gql-auth.guard';
+import { GqlAuthGuard } from '../../../guard/gql-auth.guard';
 import { ListClientesArgs } from '../../presentation/graphql/args/list-clientes.args';
 import { ClienteMapper } from './mappers/cliente.mapper';
 import { UpdateClienteInput } from './inputs/update-cliente.input';

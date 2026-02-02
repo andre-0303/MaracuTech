@@ -41,7 +41,7 @@ class TalhoesRepositoryFake implements TalhoesRepository {
 describe('CreateTalhaoUseCase', () => {
   it('deve criar um talhão quando o nome for único por cliente', async () => {
     const repository = new TalhoesRepositoryFake();
-    const useCase = new CreateTalhaoUseCase(repository as any);
+    const useCase = new CreateTalhaoUseCase(repository);
 
     const talhao = await useCase.execute({
       clienteId: 'cliente-1',
@@ -58,7 +58,7 @@ describe('CreateTalhaoUseCase', () => {
 
   it('não deve permitir criar dois talhões com o mesmo nome para o mesmo cliente', async () => {
     const repository = new TalhoesRepositoryFake();
-    const useCase = new CreateTalhaoUseCase(repository as any);
+    const useCase = new CreateTalhaoUseCase(repository);
 
     await useCase.execute({
       clienteId: 'cliente-1',

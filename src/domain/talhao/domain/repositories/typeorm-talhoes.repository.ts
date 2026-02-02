@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager } from 'typeorm';
 
 import { TalhoesRepository } from './talhoes.repository';
 import { Talhao } from '../../talhao.entity';
@@ -8,23 +7,20 @@ import { TalhaoOrmEntity } from '../../infra/typeorm/entities/talhao.orm-entity'
 import { TalhaoMapper } from '../../infra/typeorm/mappers/talhao.mapper';
 @Injectable()
 export class TypeOrmTalhoesRepository implements TalhoesRepository {
-  constructor(
-    @InjectRepository(TalhaoOrmEntity)
-    private readonly repository: Repository<TalhaoOrmEntity>,
-  ) {}
+  constructor(private readonly manager: EntityManager) {}
 
   async create(talhao: Talhao): Promise<void> {
     const ormTalhao = TalhaoMapper.toOrm(talhao);
-    await this.repository.save(ormTalhao);
+    await this.manager.save(ormTalhao);
   }
 
   async save(talhao: Talhao): Promise<void> {
     const ormTalhao = TalhaoMapper.toOrm(talhao);
-    await this.repository.save(ormTalhao);
+    await this.manager.save(ormTalhao);
   }
 
   async findById(id: string): Promise<Talhao | null> {
-    const ormTalhao = await this.repository.findOne({
+    const ormTalhao = await this.manager.findOne(TalhaoOrmEntity, {
       where: { id },
       relations: {
         plantios: {
@@ -41,7 +37,7 @@ export class TypeOrmTalhoesRepository implements TalhoesRepository {
   }
 
   async findByClienteId(clienteId: string): Promise<Talhao[]> {
-    const talhoes = await this.repository.find({
+    const talhoes = await this.manager.find(TalhaoOrmEntity, {
       where: { clienteId },
       relations: {
         plantios: {
@@ -60,7 +56,7 @@ export class TypeOrmTalhoesRepository implements TalhoesRepository {
     nome: string,
     clienteId: string,
   ): Promise<boolean> {
-    const count = await this.repository.count({
+    const count = await this.manager.count(TalhaoOrmEntity, {
       where: {
         nome,
         clienteId,
@@ -71,7 +67,7 @@ export class TypeOrmTalhoesRepository implements TalhoesRepository {
   }
 
   async delete(id: string): Promise<void> {
-    await this.repository.delete(id);
+    await this.manager.delete(TalhaoOrmEntity, id);
   }
 
   async findAllByCliente(
@@ -84,7 +80,7 @@ export class TypeOrmTalhoesRepository implements TalhoesRepository {
       where.ativo = ativo;
     }
 
-    const talhoes = await this.repository.find({
+    const talhoes = await this.manager.find(TalhaoOrmEntity, {
       where,
       relations: {
         plantios: {
@@ -99,3 +95,4 @@ export class TypeOrmTalhoesRepository implements TalhoesRepository {
     return talhoes.map(TalhaoMapper.toDomain);
   }
 }
+
