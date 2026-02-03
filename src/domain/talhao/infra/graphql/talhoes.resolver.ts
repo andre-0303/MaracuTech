@@ -3,12 +3,14 @@ import { UseGuards } from '@nestjs/common';
 
 import { GqlAuthGuard } from '../../../../auth/guard/gql-auth.guard';
 
-import { TalhaoModel } from './models/talhao.model';
+import { TalhaoModel } from '../../presentation/graphql/models/talhao.model';
 import { CreateTalhaoInput } from './inputs/create-talhao.input';
+import { ListTalhoesByClienteArgs } from '../../presentation/graphql/args/list-talhoes-by-cliente.args';
 
 import { ListTalhoesUseCase } from '../../application/use-cases/list-talhoes/list-talhoes.use-case';
 import { CreateTalhaoUseCase } from '../../application/use-cases/create-talhao/create-talhao.use-case';
 import { GetTalhaoByIdUseCase } from '../../application/use-cases/get-talhao-by-id/get-talhao-by-id.use-case';
+import { ListTalhoesByClienteUseCase } from '../../application/use-cases/list-talhoes-by-cliente/list-talhoes-by-cliente.use-case';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => TalhaoModel)
@@ -17,7 +19,17 @@ export class TalhoesResolver {
     private readonly listTalhoesUseCase: ListTalhoesUseCase,
     private readonly createTalhaoUseCase: CreateTalhaoUseCase,
     private readonly getTalhaoByIdUseCase: GetTalhaoByIdUseCase,
+    private readonly listTalhoesByClienteUseCase: ListTalhoesByClienteUseCase,
   ) {}
+
+  @Query(() => [TalhaoModel])
+  async talhoesByCliente(
+    @Args() args: ListTalhoesByClienteArgs,
+  ): Promise<TalhaoModel[]> {
+    return this.listTalhoesByClienteUseCase.execute({
+      clienteId: args.clienteId,
+    });
+  }
 
   @Query(() => [TalhaoModel])
   async listTalhoes(
