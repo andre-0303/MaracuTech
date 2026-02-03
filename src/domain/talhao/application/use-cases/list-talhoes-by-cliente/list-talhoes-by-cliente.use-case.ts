@@ -1,29 +1,14 @@
-import { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
-import { TalhaoListItemDTO } from './list-talhoes-by-cliente.dto';
-
-interface ListTalhoesByClienteRequest {
-  clienteId: string;
-}
+import { Inject } from '@nestjs/common';
+import type { TalhoesReadRepository } from '../../queries/talhoes-read.repository';
+import type { TalhaoReadDTO } from '../../dtos/talhao-read.dto';
 
 export class ListTalhoesByClienteUseCase {
   constructor(
-    private readonly talhoesRepository: TalhoesRepository,
+    @Inject('TalhoesReadRepository')
+    private readonly talhoesReadRepository: TalhoesReadRepository,
   ) {}
 
-  async execute(
-    data: ListTalhoesByClienteRequest,
-  ): Promise<TalhaoListItemDTO[]> {
-    const talhoes =
-      await this.talhoesRepository.findAllByCliente(
-        data.clienteId,
-      );
-
-    return talhoes.map((talhao) => ({
-      id: talhao.id,
-      nome: talhao.nome,
-      area: talhao.area.getValue(),
-      localizacao: talhao.localizacao.getValue(),
-    }));
+  async execute(clienteId: string): Promise<TalhaoReadDTO[]> {
+    return this.talhoesReadRepository.findByClienteId(clienteId);
   }
 }
-
