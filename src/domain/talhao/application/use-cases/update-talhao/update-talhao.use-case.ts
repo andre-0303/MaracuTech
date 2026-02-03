@@ -1,5 +1,6 @@
 import { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
 import { Area } from '../../../../shared/value-objects/area.vo';
+import { Localizacao } from '../../../../shared/value-objects/localizacao.vo';
 import { Talhao } from '../../../talhao.entity';
 import { TalhaoNaoEncontradoError } from '../../../domain/errors/talhao-nao-encontrado.error';
 import { TalhaoNomeDuplicadoError } from '../../../domain/errors/talhao-nome-duplicado.error';
@@ -41,7 +42,9 @@ export class UpdateTalhaoUseCase {
     talhao.update({
       nome: data.nome,
       area: data.area ? new Area(data.area) : undefined,
-      localizacao: data.localizacao,
+      localizacao: data.localizacao
+        ? new Localizacao(data.localizacao)
+        : undefined,
     });
 
     await this.talhoesRepository.save(talhao);

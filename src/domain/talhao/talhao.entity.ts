@@ -1,12 +1,13 @@
 import { Area } from '../shared/value-objects/area.vo';
 import { Plantio } from './plantio.entity';
 import { Quantidade } from '../shared/value-objects/quantidade.vo';
+import { Localizacao } from '../shared/value-objects/localizacao.vo';
 
 interface TalhaoProps {
   clienteId: string;
   nome: string;
   area: Area;
-  localizacao: string;
+  localizacao: Localizacao;
   ativo: boolean;
   createdAt: Date;
 }
@@ -27,7 +28,7 @@ export class Talhao {
     clienteId: string,
     nome: string,
     area: Area,
-    localizacao: string,
+    localizacao: Localizacao,
   ) {
     return new Talhao(id, {
       clienteId,
@@ -42,7 +43,7 @@ export class Talhao {
   update(data: {
     nome?: string;
     area?: Area;
-    localizacao?: string;
+    localizacao?: Localizacao;
   }) {
     if (data.nome) this.props.nome = data.nome;
     if (data.area) this.props.area = data.area;
@@ -54,7 +55,7 @@ export class Talhao {
     clienteId: string;
     nome: string;
     area: Area;
-    localizacao: string;
+    localizacao: Localizacao;
     ativo: boolean;
     createdAt: Date;
     plantios?: Plantio[];
@@ -84,7 +85,7 @@ export class Talhao {
     return this.props.area;
   }
 
-  get localizacao(): string {
+  get localizacao(): Localizacao {
     return this.props.localizacao;
   }
 

@@ -1,6 +1,7 @@
 import { UpdateTalhaoUseCase } from './update-talhao.use-case';
 import { Talhao } from '../../../talhao.entity';
 import { Area } from '../../../../shared/value-objects/area.vo';
+import { Localizacao } from '../../../../shared/value-objects/localizacao.vo';
 import { TalhaoNaoEncontradoError } from '../../../domain/errors/talhao-nao-encontrado.error';
 import { TalhaoNomeDuplicadoError } from '../../../domain/errors/talhao-nome-duplicado.error';
 import { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
@@ -55,7 +56,7 @@ describe('UpdateTalhaoUseCase', () => {
       'cliente-1',
       'Talhão A',
       new Area(1000),
-      'Zona Norte',
+      new Localizacao('Zona Norte'),
     );
 
     await repo.create(talhao);
@@ -80,7 +81,7 @@ describe('UpdateTalhaoUseCase', () => {
       'cliente-1',
       'Talhão A',
       new Area(1000),
-      'Zona Norte',
+      new Localizacao('Zona Norte'),
     );
 
     const t2 = Talhao.create(
@@ -88,7 +89,7 @@ describe('UpdateTalhaoUseCase', () => {
       'cliente-1',
       'Talhão B',
       new Area(800),
-      'Zona Sul',
+      new Localizacao('Zona Sul'),
     );
 
     await repo.create(t1);
@@ -125,7 +126,7 @@ describe('UpdateTalhaoUseCase', () => {
       'cliente-1',
       'Talhão A',
       new Area(1000),
-      'Zona Norte',
+      new Localizacao('Zona Norte'),
     );
 
     await repo.create(talhao);
