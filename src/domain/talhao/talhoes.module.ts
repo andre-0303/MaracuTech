@@ -9,6 +9,7 @@ import { ListTalhoesUseCase } from './application/use-cases/list-talhoes/list-ta
 import { GetTalhaoByIdUseCase } from './application/use-cases/get-talhao-by-id/get-talhao-by-id.use-case';
 import { UpdateTalhaoUseCase } from './application/use-cases/update-talhao/update-talhao.use-case';
 import { ListTalhoesByClienteUseCase } from './application/use-cases/list-talhoes-by-cliente/list-talhoes-by-cliente.use-case';
+import { CreatePlantioUseCase } from './application/use-cases/create-plantio/create-plantio.use-case';
 import { TalhoesResolver } from './infra/graphql/talhoes.resolver';
 import { TalhaoOrmEntity } from './infra/typeorm/entities/talhao.orm-entity';
 import { PlantioOrmEntity } from './infra/typeorm/entities/plantio.orm-entity';
@@ -32,6 +33,7 @@ export const TRANSACTION_MANAGER = 'TRANSACTION_MANAGER';
     GetTalhaoByIdUseCase,
     UpdateTalhaoUseCase,
     ListTalhoesByClienteUseCase,
+    CreatePlantioUseCase,
     {
       provide: TALHOES_REPOSITORY,
       useFactory: (manager: any) => new TypeOrmTalhoesRepository(manager),

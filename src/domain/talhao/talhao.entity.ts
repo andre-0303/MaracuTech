@@ -1,6 +1,6 @@
+import { randomUUID } from 'crypto';
 import { Area } from '../shared/value-objects/area.vo';
 import { Plantio } from './plantio.entity';
-import { Quantidade } from '../shared/value-objects/quantidade.vo';
 import { Localizacao } from '../shared/value-objects/localizacao.vo';
 
 interface TalhaoProps {
@@ -48,6 +48,22 @@ export class Talhao {
     if (data.nome) this.props.nome = data.nome;
     if (data.area) this.props.area = data.area;
     if (data.localizacao) this.props.localizacao = data.localizacao;
+  }
+
+  addPlantio(cultura: string, dataPlantio: Date): Plantio {
+    const existeAtivo = this._plantios.some(
+      (p) => p.cultura === cultura && p.ativo,
+    );
+
+    if (existeAtivo) {
+      throw new Error(
+        'Já existe um plantio ativo dessa cultura neste talhão',
+      );
+    }
+
+    const plantio = Plantio.create(cultura, dataPlantio);
+    this._plantios.push(plantio);
+    return plantio;
   }
 
   static restore(props: {
@@ -100,21 +116,5 @@ export class Talhao {
   get plantios(): Plantio[] {
     return this._plantios;
   }
-
-  criarPlantio(
-    id: string,
-    variedade: string,
-    dataPlantio: Date,
-    quantidadeMudas: number,
-  ) {
-    const plantio = new Plantio(
-      id,
-      variedade,
-      dataPlantio,
-      new Quantidade(quantidadeMudas),
-    );
-
-    this._plantios.push(plantio);
-    return plantio;
-  }
 }
+

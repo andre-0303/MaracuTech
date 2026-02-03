@@ -1,42 +1,54 @@
+import { randomUUID } from 'crypto';
 import { FaseCultivo } from './fase-cultivo.enum';
-import { Colheita } from './colheita.entity';
-import { Quantidade } from '../shared/value-objects/quantidade.vo';
+
+interface PlantioProps {
+  cultura: string;
+  dataPlantio: Date;
+  fase: FaseCultivo;
+  ativo: boolean;
+}
 
 export class Plantio {
-  private colheitas: Colheita[] = [];
-  private faseAtual: FaseCultivo = FaseCultivo.PLANTADO;
-
-  constructor(
-    readonly id: string,
-    readonly variedade: string,
-    readonly dataPlantio: Date,
-    readonly quantidadeMudas: Quantidade,
+  private constructor(
+    public readonly id: string,
+    private props: PlantioProps,
   ) {}
 
-  getFaseAtual(): FaseCultivo {
-    return this.faseAtual;
+  static create(cultura: string, dataPlantio: Date): Plantio {
+    return new Plantio(randomUUID(), {
+      cultura,
+      dataPlantio,
+      fase: FaseCultivo.PLANTIO,
+      ativo: true,
+    });
   }
 
-  avancarFase() {
-    const ordem = Object.values(FaseCultivo);
-    const indiceAtual = ordem.indexOf(this.faseAtual);
-
-    if (this.faseAtual === FaseCultivo.ENCERRADO) {
-      throw new Error('Plantio já encerrado');
+  advanceFase(novaFase: FaseCultivo) {
+    if (novaFase <= this.props.fase) {
+      throw new Error('Não é permitido retroceder fase do cultivo');
     }
 
-    this.faseAtual = ordem[indiceAtual + 1];
+    this.props.fase = novaFase;
   }
 
-  registrarColheita(colheita: Colheita) {
-    if (this.faseAtual !== FaseCultivo.FRUTIFICACAO) {
-      throw new Error('Colheita só permitida na fase de frutificação');
-    }
-
-    this.colheitas.push(colheita);
+  desativar() {
+    this.props.ativo = false;
   }
 
-  getColheitas(): Colheita[] {
-    return this.colheitas;
+  get cultura(): string {
+    return this.props.cultura;
+  }
+
+  get dataPlantio(): Date {
+    return this.props.dataPlantio;
+  }
+
+  get fase(): FaseCultivo {
+    return this.props.fase;
+  }
+
+  get ativo(): boolean {
+    return this.props.ativo;
   }
 }
+
