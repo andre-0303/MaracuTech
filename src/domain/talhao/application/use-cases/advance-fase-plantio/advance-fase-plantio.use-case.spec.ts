@@ -1,10 +1,11 @@
-import { CreatePlantioUseCase } from './create-plantio.use-case';
+import { AdvanceFasePlantioUseCase } from './advance-fase-plantio.use-case';
 import { Talhao } from '../../../talhao.entity';
 import { Area } from '../../../../shared/value-objects/area.vo';
 import { Localizacao } from '../../../../shared/value-objects/localizacao.vo';
+import { Plantio } from '../../../plantio.entity';
+import { FaseCultivo } from '../../../domain/enums/fase-cultivo.enum';
 import { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
 import { TalhaoNaoEncontradoError } from '../../../domain/errors/talhao-nao-encontrado.error';
-import { FaseCultivo } from '../../../domain/enums/fase-cultivo.enum';
 
 class TalhoesRepositoryFake implements TalhoesRepository {
   private talhoes: Map<string, Talhao> = new Map();
@@ -52,10 +53,10 @@ class TalhoesRepositoryFake implements TalhoesRepository {
   }
 }
 
-describe('CreatePlantioUseCase', () => {
-  it('deve criar um plantio dentro do talhão', async () => {
+describe('AdvanceFasePlantioUseCase', () => {
+  it('deve avançar a fase do plantio', async () => {
     const repository = new TalhoesRepositoryFake();
-    const useCase = new CreatePlantioUseCase(repository);
+    const useCase = new AdvanceFasePlantioUseCase(repository);
 
     const talhao = Talhao.create(
       'talhao-1',
@@ -64,38 +65,24 @@ describe('CreatePlantioUseCase', () => {
       new Area(1000),
       new Localizacao('Zona Norte'),
     );
+
+    const plantio = talhao.addPlantio('Café', new Date());
 
     await repository.create(talhao);
 
     await useCase.execute({
       talhaoId: talhao.id,
       clienteId: 'cliente-1',
-      cultura: 'Café',
-      dataPlantio: new Date('2024-01-15'),
+      plantioId: plantio.id,
+      novaFase: FaseCultivo.DESENVOLVIMENTO,
     });
 
-    expect(talhao.plantios).toHaveLength(1);
-    expect(talhao.plantios[0].cultura).toBe('Café');
-    expect(talhao.plantios[0].fase).toBe(FaseCultivo.PLANTIO);
+    expect(plantio.fase).toBe(FaseCultivo.DESENVOLVIMENTO);
   });
 
-  it('deve lançar erro quando talhão não existe', async () => {
+  it('não deve permitir retroceder fase', async () => {
     const repository = new TalhoesRepositoryFake();
-    const useCase = new CreatePlantioUseCase(repository);
-
-    await expect(
-      useCase.execute({
-        talhaoId: 'nao-existe',
-        clienteId: 'cliente-1',
-        cultura: 'Café',
-        dataPlantio: new Date(),
-      }),
-    ).rejects.toThrow(TalhaoNaoEncontradoError);
-  });
-
-  it('deve lançar erro quando clienteId não corresponde', async () => {
-    const repository = new TalhoesRepositoryFake();
-    const useCase = new CreatePlantioUseCase(repository);
+    const useCase = new AdvanceFasePlantioUseCase(repository);
 
     const talhao = Talhao.create(
       'talhao-1',
@@ -104,6 +91,49 @@ describe('CreatePlantioUseCase', () => {
       new Area(1000),
       new Localizacao('Zona Norte'),
     );
+
+    const plantio = talhao.addPlantio('Café', new Date());
+    talhao.advanceFasePlantio(plantio.id, FaseCultivo.DESENVOLVIMENTO);
+
+    await repository.create(talhao);
+
+    await expect(
+      useCase.execute({
+        talhaoId: talhao.id,
+        clienteId: 'cliente-1',
+        plantioId: plantio.id,
+        novaFase: FaseCultivo.PLANTIO,
+      }),
+    ).rejects.toThrow('Não é permitido retroceder fase do cultivo');
+  });
+
+  it('deve lançar erro quando talhão não existe', async () => {
+    const repository = new TalhoesRepositoryFake();
+    const useCase = new AdvanceFasePlantioUseCase(repository);
+
+    await expect(
+      useCase.execute({
+        talhaoId: 'nao-existe',
+        clienteId: 'cliente-1',
+        plantioId: 'plantio-1',
+        novaFase: FaseCultivo.DESENVOLVIMENTO,
+      }),
+    ).rejects.toThrow(TalhaoNaoEncontradoError);
+  });
+
+  it('deve lançar erro quando clienteId não corresponde', async () => {
+    const repository = new TalhoesRepositoryFake();
+    const useCase = new AdvanceFasePlantioUseCase(repository);
+
+    const talhao = Talhao.create(
+      'talhao-1',
+      'cliente-1',
+      'Talhão A',
+      new Area(1000),
+      new Localizacao('Zona Norte'),
+    );
+
+    const plantio = talhao.addPlantio('Café', new Date());
 
     await repository.create(talhao);
 
@@ -111,15 +141,15 @@ describe('CreatePlantioUseCase', () => {
       useCase.execute({
         talhaoId: talhao.id,
         clienteId: 'cliente-diferente',
-        cultura: 'Café',
-        dataPlantio: new Date(),
+        plantioId: plantio.id,
+        novaFase: FaseCultivo.DESENVOLVIMENTO,
       }),
     ).rejects.toThrow(TalhaoNaoEncontradoError);
   });
 
-  it('não deve permitir dois plantios ativos da mesma cultura', async () => {
+  it('deve avançar fase até colheita', async () => {
     const repository = new TalhoesRepositoryFake();
-    const useCase = new CreatePlantioUseCase(repository);
+    const useCase = new AdvanceFasePlantioUseCase(repository);
 
     const talhao = Talhao.create(
       'talhao-1',
@@ -129,56 +159,39 @@ describe('CreatePlantioUseCase', () => {
       new Localizacao('Zona Norte'),
     );
 
-    await repository.create(talhao);
-
-    await useCase.execute({
-      talhaoId: talhao.id,
-      clienteId: 'cliente-1',
-      cultura: 'Café',
-      dataPlantio: new Date(),
-    });
-
-    await expect(
-      useCase.execute({
-        talhaoId: talhao.id,
-        clienteId: 'cliente-1',
-        cultura: 'Café',
-        dataPlantio: new Date(),
-      }),
-    ).rejects.toThrow(
-      'Já existe um plantio ativo dessa cultura neste talhão',
-    );
-  });
-
-  it('deve permitir plantio de cultura diferente mesmo com outra ativa', async () => {
-    const repository = new TalhoesRepositoryFake();
-    const useCase = new CreatePlantioUseCase(repository);
-
-    const talhao = Talhao.create(
-      'talhao-1',
-      'cliente-1',
-      'Talhão A',
-      new Area(1000),
-      new Localizacao('Zona Norte'),
-    );
+    const plantio = talhao.addPlantio('Café', new Date());
 
     await repository.create(talhao);
 
     await useCase.execute({
       talhaoId: talhao.id,
       clienteId: 'cliente-1',
-      cultura: 'Café',
-      dataPlantio: new Date(),
+      plantioId: plantio.id,
+      novaFase: FaseCultivo.DESENVOLVIMENTO,
     });
 
     await useCase.execute({
       talhaoId: talhao.id,
       clienteId: 'cliente-1',
-      cultura: 'Milho',
-      dataPlantio: new Date(),
+      plantioId: plantio.id,
+      novaFase: FaseCultivo.FLORACAO,
     });
 
-    expect(talhao.plantios).toHaveLength(2);
+    await useCase.execute({
+      talhaoId: talhao.id,
+      clienteId: 'cliente-1',
+      plantioId: plantio.id,
+      novaFase: FaseCultivo.FRUTIFICACAO,
+    });
+
+    await useCase.execute({
+      talhaoId: talhao.id,
+      clienteId: 'cliente-1',
+      plantioId: plantio.id,
+      novaFase: FaseCultivo.COLHEITA,
+    });
+
+    expect(plantio.fase).toBe(FaseCultivo.COLHEITA);
   });
 });
 

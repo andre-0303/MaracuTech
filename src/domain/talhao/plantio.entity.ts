@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import { FaseCultivo } from './fase-cultivo.enum';
+import { FaseCultivo } from './domain/enums/fase-cultivo.enum';
 
 interface PlantioProps {
   cultura: string;

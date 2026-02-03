@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 import { Area } from '../shared/value-objects/area.vo';
 import { Plantio } from './plantio.entity';
 import { Localizacao } from '../shared/value-objects/localizacao.vo';
+import { FaseCultivo } from './domain/enums/fase-cultivo.enum';
 
 interface TalhaoProps {
   clienteId: string;
@@ -64,6 +65,16 @@ export class Talhao {
     const plantio = Plantio.create(cultura, dataPlantio);
     this._plantios.push(plantio);
     return plantio;
+  }
+
+  advanceFasePlantio(plantioId: string, novaFase: FaseCultivo) {
+    const plantio = this._plantios.find((p) => p.id === plantioId);
+
+    if (!plantio) {
+      throw new Error('Plantio não encontrado neste talhão');
+    }
+
+    plantio.advanceFase(novaFase);
   }
 
   static restore(props: {
