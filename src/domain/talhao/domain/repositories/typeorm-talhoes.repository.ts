@@ -11,12 +11,12 @@ export class TypeOrmTalhoesRepository implements TalhoesRepository {
 
   async create(talhao: Talhao): Promise<void> {
     const ormTalhao = TalhaoMapper.toOrm(talhao);
-    await this.manager.save(ormTalhao);
+    await this.manager.save(TalhaoOrmEntity, ormTalhao);
   }
 
   async save(talhao: Talhao): Promise<void> {
     const ormTalhao = TalhaoMapper.toOrm(talhao);
-    await this.manager.save(ormTalhao);
+    await this.manager.save(TalhaoOrmEntity, ormTalhao);
   }
 
   async findById(id: string): Promise<Talhao | null> {

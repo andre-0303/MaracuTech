@@ -323,6 +323,7 @@ query ListClientesFiltrados {
 ```graphql
 mutation CreateTalhao {
   createTalhao(input: {
+    clienteId: "550e8400-e29b-41d4-a716-446655440000"
     nome: "Talhão A1"
     area: 2.5
     localizacao: "Sítio Bela Vista"
@@ -335,22 +336,77 @@ mutation CreateTalhao {
 }
 ```
 
-#### Listar Talhões
+**Com variables (recomendado)**
+
+Query:
 
 ```graphql
-query ListTalhoes {
-  listTalhoes {
+mutation CreateTalhao($input: CreateTalhaoInput!) {
+  createTalhao(input: $input) {
     id
+    clienteId
     nome
     area
     localizacao
+    ativo
+    createdAt
+  }
+}
+```
+
+Variables:
+
+```json
+{
+  "input": {
+    "clienteId": "550e8400-e29b-41d4-a716-446655440000",
+    "nome": "Talhão A1",
+    "area": 2.5,
+    "localizacao": "Sítio Bela Vista"
+  }
+}
+```
+
+HTTP Header (Playground / Apollo):
+
+```json
+{
+  "Authorization": "Bearer <seu-token-aqui>"
+}
+```
+
+#### Listar Talhões por cliente
+
+`listTalhoes` requer o argumento `clienteId`.
+
+Query (usando variável):
+
+```graphql
+query ListTalhoes($clienteId: String!, $ativo: Boolean) {
+  listTalhoes(clienteId: $clienteId, ativo: $ativo) {
+    id
+    clienteId
+    nome
+    area
+    localizacao
+    ativo
+    createdAt
     plantios {
       id
-      variedade
+      cultura
       dataPlantio
-      faseAtual
+      fase
     }
   }
+}
+```
+
+Variables:
+
+```json
+{
+  "clienteId": "550e8400-e29b-41d4-a716-446655440000",
+  "ativo": true
 }
 ```
 
@@ -369,9 +425,9 @@ mutation CreatePlantio {
     quantidadeMudas: 200
   }) {
     id
-    variedade
+    cultura
     dataPlantio
-    faseAtual
+    fase
   }
 }
 ```
@@ -379,10 +435,10 @@ mutation CreatePlantio {
 #### Avançar Fase do Cultivo
 
 ```graphql
-mutation AvancarFase {
-  avancarFase(plantioId: "550e8400-e29b-41d4-a716-446655440000") {
+mutation AdvanceFasePlantio($input: AdvanceFasePlantioInput!) {
+  advanceFasePlantio(input: $input) {
     id
-    faseAtual
+    fase
   }
 }
 ```
@@ -410,8 +466,8 @@ mutation RegisterColheita {
 #### Listar Colheitas por Plantio
 
 ```graphql
-query ListColheitas {
-  listColheitas(plantioId: "550e8400-e29b-41d4-a716-446655440000") {
+query ListColheitas($plantioId: String!) {
+  listColheitas(plantioId: $plantioId) {
     id
     data
     quantidade

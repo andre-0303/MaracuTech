@@ -1,5 +1,6 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import type { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
+import { TALHOES_REPOSITORY } from '../../../domain/repositories/talhoes-repository.token';
 import { FaseCultivo } from '../../../domain/enums/fase-cultivo.enum';
 import { TalhaoNaoEncontradoError } from '../../../domain/errors/talhao-nao-encontrado.error';
 
@@ -10,9 +11,10 @@ interface AdvanceFasePlantioRequest {
   novaFase: FaseCultivo;
 }
 
+@Injectable()
 export class AdvanceFasePlantioUseCase {
   constructor(
-    @Inject('TalhoesRepository')
+    @Inject(TALHOES_REPOSITORY)
     private readonly talhoesRepository: TalhoesRepository,
   ) {}
 

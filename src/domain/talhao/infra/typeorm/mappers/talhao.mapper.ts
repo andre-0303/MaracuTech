@@ -3,6 +3,7 @@ import { Area } from '../../../../shared/value-objects/area.vo';
 import { Quantidade } from '../../../../shared/value-objects/quantidade.vo';
 import { Plantio } from '../../../plantio.entity';
 import { Colheita } from '../../../colheita.entity';
+import { Localizacao } from '../../../../shared/value-objects/localizacao.vo';
 
 import { TalhaoOrmEntity } from '../entities/talhao.orm-entity';
 
@@ -13,23 +14,18 @@ export class TalhaoMapper {
       clienteId: orm.clienteId,
       nome: orm.nome,
       area: new Area(orm.area),
-      localizacao: orm.localizacao,
+      localizacao: new Localizacao(orm.localizacao),
       ativo: orm.ativo,
       createdAt: orm.createdAt,
       plantios: orm.plantios?.map((p) => {
-        const plantio = new Plantio(
-          p.id,
-          p.variedade,
-          p.dataPlantio,
-          new Quantidade(p.quantidadeMudas),
-        );
-
-        (plantio as any).faseAtual = p.faseAtual;
-
-        p.colheitas?.forEach((c) => {
-          plantio.registrarColheita(
-            new Colheita(c.id, c.data, new Quantidade(c.quantidade)),
-          );
+        const plantio = Plantio.restore({
+          id: p.id,
+          variedade: p.variedade,
+          dataPlantio: p.dataPlantio,
+          quantidadeMudas: new Quantidade(p.quantidadeMudas),
+          faseAtual: p.faseAtual,
+          ativo: true,
+          colheitas: p.colheitas?.map((c) => new Colheita(c.id, c.data, new Quantidade(c.quantidade))) ?? [],
         });
 
         return plantio;
@@ -45,10 +41,10 @@ export class TalhaoMapper {
       clienteId: talhao.clienteId,
       nome: talhao.nome,
       area: talhao.area.getValue(),
-      localizacao: talhao.localizacao,
+      localizacao: talhao.localizacao.getValue(),
       ativo: talhao.ativo,
       createdAt: talhao.createdAt,
-      plantios: talhao.getPlantios().map((p) => ({
+      plantios: talhao.plantios.map((p) => ({
         id: p.id,
         variedade: p.variedade,
         dataPlantio: p.dataPlantio,

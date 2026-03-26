@@ -4,5 +4,8 @@ export interface TalhaoReadDTO {
   area: number;
   localizacao: string;
   totalPlantios: number;
+  clienteId: string;
+  ativo: boolean;
+  createdAt: Date;
 }
 

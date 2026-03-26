@@ -27,8 +27,8 @@ export const TRANSACTION_MANAGER = 'TRANSACTION_MANAGER';
 
     {
       provide: CLIENTES_REPOSITORY,
-      useFactory: (manager: any) => new TypeOrmClientesRepository(manager),
-      inject: ['EntityManager', DataSource],
+      useFactory: (dataSource: DataSource) => new TypeOrmClientesRepository(dataSource.manager),
+      inject: [DataSource],
     },
     {
       provide: TRANSACTION_MANAGER,

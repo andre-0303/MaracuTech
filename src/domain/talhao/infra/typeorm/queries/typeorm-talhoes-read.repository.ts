@@ -15,11 +15,14 @@ export class TypeOrmTalhoesReadRepository implements TalhoesReadRepository {
         t.nome,
         t.area,
         t.localizacao,
-        COUNT(p.id) as "totalPlantios"
+        COUNT(p.id) as "totalPlantios",
+        t."clienteId" as "clienteId",
+        t.ativo as "ativo",
+        t."createdAt" as "createdAt"
       FROM talhoes t
-      LEFT JOIN plantios p ON p.talhao_id = t.id
-      WHERE t.cliente_id = $1
-      GROUP BY t.id
+      LEFT JOIN plantios p ON p."talhaoId" = t.id
+      WHERE t."clienteId" = $1
+      GROUP BY t.id, t."clienteId", t.ativo, t."createdAt"
       ORDER BY t.nome
     `,
       [clienteId],

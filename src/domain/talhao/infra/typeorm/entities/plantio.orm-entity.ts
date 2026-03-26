@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { TalhaoOrmEntity } from './talhao.orm-entity';
 import { ColheitaOrmEntity } from './colheita.orm-entity';
-import { FaseCultivo } from '../../../fase-cultivo.enum';
+import { FaseCultivo } from '../../../domain/enums/fase-cultivo.enum';
 
 @Entity('plantios')
 export class PlantioOrmEntity {
@@ -13,15 +13,10 @@ export class PlantioOrmEntity {
 
   @Column({ type: 'date' })
   dataPlantio: Date;
-
   @Column('int')
   quantidadeMudas: number;
 
-  @Column({
-    type: 'enum',
-    enum: FaseCultivo,
-    default: FaseCultivo.PLANTADO,
-  })
+  @Column('int')
   faseAtual: FaseCultivo;
 
   @ManyToOne(() => TalhaoOrmEntity, (talhao) => talhao.plantios, {

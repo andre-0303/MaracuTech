@@ -1,5 +1,6 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import type { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
+import { TALHOES_REPOSITORY } from '../../../domain/repositories/talhoes-repository.token';
 import type { Talhao } from '../../../talhao.entity';
 import { TalhaoNaoEncontradoError } from '../../../domain/errors/talhao-nao-encontrado.error';
 
@@ -10,9 +11,10 @@ interface CreatePlantioRequest {
   dataPlantio: Date;
 }
 
+@Injectable()
 export class CreatePlantioUseCase {
   constructor(
-    @Inject('TalhoesRepository')
+    @Inject(TALHOES_REPOSITORY)
     private readonly talhoesRepository: TalhoesRepository,
   ) {}
 

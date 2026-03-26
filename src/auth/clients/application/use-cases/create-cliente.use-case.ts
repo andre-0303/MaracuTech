@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import type { ClientesRepository } from '../../domain/repositories/clientes.repository';
+import { CLIENTES_REPOSITORY } from '../../domain/repositories/clientes.repository';
 import { Cliente } from '../../domain/entities/cliente.entity';
 
 interface CreateClienteRequest {
@@ -11,6 +12,7 @@ interface CreateClienteRequest {
 @Injectable()
 export class CreateClienteUseCase {
   constructor(
+    @Inject(CLIENTES_REPOSITORY)
     private readonly clientesRepository: ClientesRepository,
   ) {}
 

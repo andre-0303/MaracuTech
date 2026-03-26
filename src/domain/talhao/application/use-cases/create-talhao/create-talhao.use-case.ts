@@ -1,15 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 import type { TalhoesRepository } from '../../../domain/repositories/talhoes.repository';
+import { TALHOES_REPOSITORY } from '../../../domain/repositories/talhoes-repository.token';
 
 import { Talhao } from '../../../talhao.entity';
 import { Area } from '../../../../shared/value-objects/area.vo';
+import { Localizacao } from '../../../../shared/value-objects/localizacao.vo';
 import { CreateTalhaoInput } from '../../../infra/graphql/inputs/create-talhao.input';
 
 @Injectable()
 export class CreateTalhaoUseCase {
   constructor(
+    @Inject(TALHOES_REPOSITORY)
     private readonly talhoesRepository: TalhoesRepository,
   ) {}
 
@@ -28,7 +31,7 @@ export class CreateTalhaoUseCase {
       input.clienteId,
       input.nome,
       new Area(input.area),
-      input.localizacao,
+      new Localizacao(input.localizacao),
     );
 
     await this.talhoesRepository.create(talhao);

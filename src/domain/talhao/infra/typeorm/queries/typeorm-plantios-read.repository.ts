@@ -12,12 +12,12 @@ export class TypeOrmPlantiosReadRepository implements PlantiosReadRepository {
       `
       SELECT 
         id,
-        cultura,
-        data_plantio as "dataPlantio",
-        fase
+        variedade as "cultura",
+        "dataPlantio" as "dataPlantio",
+        "faseAtual" as "fase"
       FROM plantios
-      WHERE talhao_id = $1
-      ORDER BY data_plantio DESC
+      WHERE "talhaoId" = $1
+      ORDER BY "dataPlantio" DESC
     `,
       [talhaoId],
     );
