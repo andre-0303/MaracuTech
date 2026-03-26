@@ -417,13 +417,8 @@ Variables:
 #### Criar Plantio
 
 ```graphql
-mutation CreatePlantio {
-  createPlantio(input: {
-    talhaoId: "550e8400-e29b-41d4-a716-446655440000"
-    variedade: "Maracujá Azedo"
-    dataPlantio: "2025-01-15"
-    quantidadeMudas: 200
-  }) {
+mutation CreatePlantio($input: CreatePlantioInput!) {
+  createPlantio(input: $input) {
     id
     cultura
     dataPlantio
@@ -431,14 +426,25 @@ mutation CreatePlantio {
   }
 }
 ```
+Variables:
+
+```json
+{
+  "clienteId": "550e8400-e29b-41d4-a716-446655440000",
+  "ativo": true
+}
+```
 
 #### Avançar Fase do Cultivo
 
 ```graphql
-mutation AdvanceFasePlantio($input: AdvanceFasePlantioInput!) {
-  advanceFasePlantio(input: $input) {
-    id
-    fase
+{
+  "input": {
+    "talhaoId": "idTalhao",
+    "clienteId": "idCliente",
+    "variedade": "Maracujá Roxo",
+    "dataPlantio": "2025-01-15",
+    "quantidadeMudas": 200
   }
 }
 ```
