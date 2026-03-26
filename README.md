@@ -496,6 +496,14 @@ query ListColheitas($plantioId: String!) {
 }
 ```
 
+Variables:
+
+```json
+{
+ { "plantioId": "ID_DO_PLANTIO" }
+}
+```
+
 ---
 
 ## 🧪 Testes
