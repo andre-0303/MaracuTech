@@ -451,6 +451,19 @@ mutation AdvanceFasePlantio($input: AdvanceFasePlantioInput!) {
 }
 ```
 
+Variables:
+
+```json
+{
+  "input": {
+    "talhaoId": "ID_DO_CLIENTE",
+    "clienteId": "ID_DO_CLIENTE",
+    "plantioId": "ID_DO_PLANTIO",
+    "novaFase": "DESENVOLVIMENTO"
+  }
+}
+```
+
 ---
 
 ### 🍈 Colheitas (Exemplo Conceitual)
