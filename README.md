@@ -1,6 +1,16 @@
 # 🍈 MaracuTech
 
-Sistema de gestão agrícola para produtores de maracujá na Serra da Ibiapaba.
+<div align="center">
+
+![MaracuTech Logo](https://img.shields.io/badge/MaracuTech-Sistema%20de%20Gestão-green?style=for-the-badge&logo=leaf)
+![NestJS](https://img.shields.io/badge/NestJS-11.x-red?style=for-the-badge&logo=nestjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)
+![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=for-the-badge&logo=graphql)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15.x-336791?style=for-the-badge&logo=postgresql)
+
+**Sistema de Gerenciamento de Plantações de Maracujá para Produtores da Serra da Ibiapaba**
+
+</div>
 
 ## Stack
 - NestJS 11 + TypeScript 5
@@ -58,4 +68,12 @@ migrations/        # scripts de migração do TypeORM
 - `pnpm migration:generate src/migrations/<nome>` — gera nova migração (aponta para `src/infra/database/data-source.ts`)
 
 ## Documentação
-- Wiki do projeto: https://github.com/andre-0303/MaracuTech/wiki
+- **Visão Geral** — [Overview](https://github.com/andre-0303/MaracuTech/wiki/MaracuTech-%E2%80%94-Vis%C3%A3o-Geral)
+- **Queries e Mutations (GraphQL)** — [GraphQL-Queries](https://github.com/andre-0303/MaracuTech/wiki/GraphQL-%E2%80%94-Queries-e-Mutations)
+- **Setup & Execução** — [Setup](https://github.com/andre-0303/MaracuTech/wiki/Setup-&-Execução)
+- **Migrations** — [Migrations](https://github.com/andre-0303/MaracuTech/wiki/Migrations)
+- **Contribuição** — [Contributing](https://github.com/andre-0303/MaracuTech/wiki/Contribui%C3%A7%C3%A3o)
+
+<p align="center">
+  MaracuTech — Gerenciamento de plantações de maracujá · © 2026
+</p>
