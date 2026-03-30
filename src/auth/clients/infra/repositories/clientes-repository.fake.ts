@@ -9,7 +9,7 @@ export class ClientesRepositoryFake implements ClientesRepository {
   }
 
   async save(cliente: Cliente): Promise<void> {
-    const index = this.clientes.findIndex(c => c.id === cliente.id);
+    const index = this.clientes.findIndex((c) => c.id === cliente.id);
     if (index !== -1) {
       this.clientes[index] = cliente;
     } else {
@@ -18,7 +18,7 @@ export class ClientesRepositoryFake implements ClientesRepository {
   }
 
   async findByEmail(email: string): Promise<Cliente | null> {
-    return this.clientes.find(c => c.email === email) || null;
+    return this.clientes.find((c) => c.email === email) || null;
   }
 
   async findAll(): Promise<Cliente[]> {
@@ -26,17 +26,21 @@ export class ClientesRepositoryFake implements ClientesRepository {
   }
 
   async findById(id: string): Promise<Cliente | null> {
-    return this.clientes.find(c => c.id === id) || null;
+    return this.clientes.find((c) => c.id === id) || null;
   }
 
   async update(cliente: Cliente): Promise<void> {
-    const index = this.clientes.findIndex(c => c.id === cliente.id);
+    const index = this.clientes.findIndex((c) => c.id === cliente.id);
     if (index !== -1) {
       this.clientes[index] = cliente;
     }
   }
 
   async delete(id: string): Promise<void> {
-    this.clientes = this.clientes.filter(c => c.id !== id);
+    this.clientes = this.clientes.filter((c) => c.id !== id);
+  }
+
+  async findByProdutorId(produtorId: string): Promise<Cliente[]> {
+    return this.clientes.filter((c) => c.produtorId === produtorId);
   }
 }

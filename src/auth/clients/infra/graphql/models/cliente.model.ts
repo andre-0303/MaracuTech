@@ -19,4 +19,7 @@ export class ClienteModel {
 
   @Field()
   createdAt: Date;
+
+  @Field(() => [ClienteModel], { nullable: true })
+  clientes?: ClienteModel[];
 }

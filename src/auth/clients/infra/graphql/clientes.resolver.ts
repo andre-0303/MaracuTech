@@ -12,6 +12,7 @@ import { GqlAuthGuard } from '../../../guard/gql-auth.guard';
 import { ListClientesArgs } from '../../presentation/graphql/args/list-clientes.args';
 import { ClienteMapper } from './mappers/cliente.mapper';
 import { UpdateClienteInput } from './inputs/update-cliente.input';
+import { CurrentUser } from '@/auth/decorators/current-user.decorator';
 
 @UseGuards(GqlAuthGuard)
 @Resolver(() => ClienteModel)
@@ -25,8 +26,14 @@ export class ClientesResolver {
   ) {}
 
   @Mutation(() => ClienteModel)
-  async createCliente(@Args('input') input: CreateClienteInput) {
-    const cliente = await this.createClienteUseCase.execute(input);
+  async createCliente(
+    @Args('input') input: CreateClienteInput,
+    @CurrentUser() user: { userId: string },
+  ) {
+    const cliente = await this.createClienteUseCase.execute({
+      ...input,
+      produtorId: user.userId,
+    });
 
     return {
       id: cliente.id,

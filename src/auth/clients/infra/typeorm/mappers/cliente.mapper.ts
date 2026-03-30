@@ -10,6 +10,7 @@ export class ClienteMapper {
       telefone: entity.telefone,
       ativo: entity.ativo,
       createdAt: entity.createdAt,
+      produtorId: entity.produtorId ?? undefined,
     });
   }
 
@@ -22,6 +23,7 @@ export class ClienteMapper {
     entity.telefone = cliente.telefone;
     entity.ativo = cliente.ativo;
     entity.createdAt = cliente.createdAt;
+    entity.produtorId = cliente.produtorId ?? null;
 
     return entity;
   }

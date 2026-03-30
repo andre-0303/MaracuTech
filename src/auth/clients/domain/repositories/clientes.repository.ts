@@ -15,4 +15,5 @@ export interface ClientesRepository {
   findById(id: string): Promise<Cliente | null>;
   findByEmail(email: string): Promise<Cliente | null>;
   findAll(filters?: FindAllClientesFilters): Promise<Cliente[]>;
+  findByProdutorId(produtorId: string): Promise<Cliente[]>;
 }

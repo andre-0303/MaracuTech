@@ -6,6 +6,7 @@ interface ClienteProps {
   telefone: string;
   ativo: boolean;
   createdAt: Date;
+  produtorId?: string;
 }
 
 export class Cliente {
@@ -16,6 +17,7 @@ export class Cliente {
     telefone: string;
     ativo: boolean;
     createdAt: Date;
+    produtorId?: string;
   }) {
     const cliente = new Cliente(
       {
@@ -24,6 +26,7 @@ export class Cliente {
         telefone: props.telefone,
         ativo: props.ativo,
         createdAt: props.createdAt,
+        produtorId: props.produtorId,
       },
       props.id,
     );
@@ -40,12 +43,18 @@ export class Cliente {
   }
 
   // 🔹 Factory Method (forma correta de criar)
-  static create(props: Omit<ClienteProps, 'ativo' | 'createdAt'>, id?: string) {
+  static create(
+    props: Omit<ClienteProps, 'ativo' | 'createdAt' | 'produtorId'> & {
+      produtorId?: string;
+    },
+    id?: string,
+  ) {
     const cliente = new Cliente(
       {
         ...props,
         ativo: true,
         createdAt: new Date(),
+        produtorId: props.produtorId,
       },
       id,
     );
@@ -78,6 +87,10 @@ export class Cliente {
     return this.props.createdAt;
   }
 
+  get produtorId() {
+    return this.props.produtorId;
+  }
+
   // 🔹 comportamentos (regra de negócio)
   desativar() {
     this.props.ativo = false;
@@ -92,5 +105,7 @@ export class Cliente {
     if (partial.email !== undefined) this.props.email = partial.email;
     if (partial.telefone !== undefined) this.props.telefone = partial.telefone;
     if (partial.ativo !== undefined) this.props.ativo = partial.ativo;
+    if (partial.produtorId !== undefined)
+      this.props.produtorId = partial.produtorId;
   }
 }

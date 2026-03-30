@@ -22,6 +22,9 @@ export class ClienteOrmEntity {
   @Column({ default: true })
   ativo: boolean;
 
+  @Column({ type: 'uuid', nullable: true })
+  produtorId: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 }

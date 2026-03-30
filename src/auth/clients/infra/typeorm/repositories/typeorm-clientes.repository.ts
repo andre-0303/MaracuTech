@@ -21,6 +21,7 @@ export class TypeOrmClientesRepository implements ClientesRepository {
       telefone: cliente.telefone,
       ativo: cliente.ativo,
       createdAt: cliente.createdAt,
+      produtorId: cliente.produtorId,
     });
   }
 
@@ -32,6 +33,7 @@ export class TypeOrmClientesRepository implements ClientesRepository {
       telefone: cliente.telefone,
       ativo: cliente.ativo,
       createdAt: cliente.createdAt,
+      produtorId: cliente.produtorId,
     });
   }
 
@@ -54,7 +56,10 @@ export class TypeOrmClientesRepository implements ClientesRepository {
   }
 
   async findAll(filters?: FindAllClientesFilters): Promise<Cliente[]> {
-    const queryBuilder = this.manager.createQueryBuilder(ClienteOrmEntity, 'cliente');
+    const queryBuilder = this.manager.createQueryBuilder(
+      ClienteOrmEntity,
+      'cliente',
+    );
 
     if (filters?.ativo !== undefined) {
       queryBuilder.andWhere('cliente.ativo = :ativo', { ativo: filters.ativo });
@@ -76,6 +81,13 @@ export class TypeOrmClientesRepository implements ClientesRepository {
     return clientes.map(ClienteMapper.toDomain);
   }
 
+  async findByProdutorId(produtorId: string): Promise<Cliente[]> {
+    const clientes = await this.manager.find(ClienteOrmEntity, {
+      where: { produtorId },
+    });
+    return clientes.map(ClienteMapper.toDomain);
+  }
+
   private toDomain(orm: ClienteOrmEntity): Cliente {
     return Cliente.restore({
       id: orm.id,
@@ -87,4 +99,3 @@ export class TypeOrmClientesRepository implements ClientesRepository {
     });
   }
 }
-

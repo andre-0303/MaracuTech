@@ -7,6 +7,7 @@ interface CreateClienteRequest {
   nome: string;
   email: string;
   telefone: string;
+  produtorId: string;
 }
 
 @Injectable()
@@ -17,7 +18,9 @@ export class CreateClienteUseCase {
   ) {}
 
   async execute(data: CreateClienteRequest): Promise<Cliente> {
-    const clienteExistente = await this.clientesRepository.findByEmail(data.email);
+    const clienteExistente = await this.clientesRepository.findByEmail(
+      data.email,
+    );
 
     if (clienteExistente) {
       throw new Error('Cliente já cadastrado com este email');
@@ -27,6 +30,7 @@ export class CreateClienteUseCase {
       nome: data.nome,
       email: data.email,
       telefone: data.telefone,
+      produtorId: data.produtorId,
     });
 
     await this.clientesRepository.create(cliente);
@@ -34,4 +38,3 @@ export class CreateClienteUseCase {
     return cliente;
   }
 }
-

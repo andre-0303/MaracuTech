@@ -55,4 +55,8 @@ export class InMemoryClientesRepository implements ClientesRepository {
 
     return resultados;
   }
+
+  async findByProdutorId(produtorId: string): Promise<Cliente[]> {
+    return this.clientes.filter((c) => c.produtorId === produtorId);
+  }
 }
